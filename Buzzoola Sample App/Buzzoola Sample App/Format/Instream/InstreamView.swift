@@ -133,6 +133,7 @@ struct InstreamView: View {
         }
         .background(Color("backgroundMain"))
         .onDisappear {
+            adCoordinator.destroyAd()
             player.pause()
         }
     }

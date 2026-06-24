@@ -42,6 +42,14 @@ struct InstreamUIKitView: UIViewRepresentable {
             coordinator?.loadAdClosure?()
         }
 
+        coordinator.onDestroyAction = { [weak coordinator] in
+            coordinator?.destroy()
+        }
+
+        adCoordinator.destroyAdAction = { [weak coordinator] in
+            coordinator?.onDestroyAction?()
+        }
+
         return coordinator
     }
 
@@ -56,6 +64,8 @@ struct InstreamUIKitView: UIViewRepresentable {
         var parent: InstreamUIKitView
 
         var loadAdClosure: (() -> Void)?
+
+        var onDestroyAction: (() -> Void)?
 
         private var ads = [InstreamAd]()
 
@@ -75,6 +85,11 @@ struct InstreamUIKitView: UIViewRepresentable {
             parent.state = .loading
         }
 
+        func destroy() {
+            ads.forEach { $0.stop() }
+            ads.removeAll()
+        }
+
         // MARK: InstreamAdLoaderProtocol
 
         func onAdLoaded(ad: InstreamAd) {
@@ -89,6 +104,9 @@ struct InstreamUIKitView: UIViewRepresentable {
             instreamView?.soundButton.addTarget(self, action: #selector(soundButtonTouched), for: .touchUpInside)
 
             ad.attachPlayerView(instreamView!)
+    
+            instreamView?.setProgressBarColor(UIColor(red: 255, green: 244, blue: 208))
+
             ad.start()
 
             self.ads.append(ad)
@@ -131,7 +149,7 @@ struct InstreamUIKitView: UIViewRepresentable {
 
             instreamView.timerLabel.isHidden = false
 
-            instreamView.timerLabel.text = String(Int(timeLeft - (video.duration - video.skipOffset)))
+            instreamView.timerLabel.text = String(Int(timeLeft - (video.duration - video.skipOffset)) + 1)
 
             if Int(timeLeft) <= Int(video.duration - video.skipOffset) {
                 instreamView.timerLabel.isHidden = true

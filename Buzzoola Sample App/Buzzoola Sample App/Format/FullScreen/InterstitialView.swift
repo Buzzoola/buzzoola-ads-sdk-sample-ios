@@ -11,6 +11,7 @@ class AdCoordinator: ObservableObject {
     @Published var isLoading = true
     var showAdAction: (() -> Void)?
     var loadAdAction: (() -> Void)?
+    var destroyAdAction: (() -> Void)?
 
     func showAd() {
         showAdAction?()
@@ -18,6 +19,10 @@ class AdCoordinator: ObservableObject {
 
     func loadAd() {
         loadAdAction?()
+    }
+    
+    func destroyAd() {
+        destroyAdAction?()
     }
 }
 

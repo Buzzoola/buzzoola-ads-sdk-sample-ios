@@ -189,7 +189,7 @@ private extension InstreamCustomPlayerView {
         enum BadgeLabel {
             static let textColor = UIColor(red: 255, green: 255, blue: 255)
             static let font = UIFont(name: "Inter24pt-Regular", size: 8)
-            static let color = UIColor(red: 29, green: 32, blue: 35)
+            static let color = UIColor(red: 29, green: 32, blue: 35).withAlphaComponent(0.64)
         }
 
         enum TimerLabel {

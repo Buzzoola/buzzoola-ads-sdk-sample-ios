@@ -72,13 +72,14 @@ struct BannerView: View {
                     case .ready:
                         VStack {}
                     case .close:
+                        Spacer()
                         VStack {
                             Text("Выберите тип креатива для повторной\nзагрузки рекламы")
                                 .foregroundColor(Constants.Text.foregroundColor)
                                 .font(Constants.Text.textFont)
                                 .multilineTextAlignment(.center)
                         }
-                        .padding(.top, 112)
+                        .padding(.bottom, 24)
                     }
                 }
             }
